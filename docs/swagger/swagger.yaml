@@ -1,0 +1,10 @@
+basePath: '{{.BasePath}}'
+host: '{{.Host}}'
+info:
+  contact: {}
+  description: DSU information API
+  license: {}
+  title: DSU Info API
+  version: 0.0.1
+paths: {}
+swagger: "2.0"
