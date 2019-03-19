@@ -12,20 +12,20 @@ import (
 )
 
 var (
-	MenuJSONRegex = regexp.MustCompile(`var\s*nd\s*=\s*(.*\])\s*;\n`)
+	MenuJSONRegex = regexp.MustCompile(`var\s+nd\s*=\s*(.*\])\s*;\n`)
 )
 
-func GetTodaysMenu() (MenuDay, error) {
+func getWeeklySodexoMenu() ([]MenuDay, error) {
 	resp, err := http.Get("https://menus.sodexomyway.com/BiteMenu/Menu?menuId=15109&locationId=10344001&whereami=http://dsu.sodexomyway.com/dining-near-me/trojan-marketplace")
 
 	if err != nil {
-		return MenuDay{}, err
+		return []MenuDay{}, err
 	}
 
 	document, err := htmlquery.Parse(resp.Body)
 
 	if err != nil {
-		return MenuDay{}, err
+		return []MenuDay{}, err
 	}
 
 	informationScript := htmlquery.FindOne(document, `//script[contains(text(), "var nd")]/text()`)
@@ -35,7 +35,7 @@ func GetTodaysMenu() (MenuDay, error) {
 	ParsedMenuJSON := MenuJSONRegex.FindStringSubmatch(informationScript.Data)
 
 	if len(ParsedMenuJSON) == 0 {
-		return MenuDay{}, errors.New("could not find data in response")
+		return []MenuDay, errors.New("could not find data in response")
 	}
 
 	var (
@@ -46,15 +46,21 @@ func GetTodaysMenu() (MenuDay, error) {
 
 	err = json.NewDecoder(strings.NewReader(ParsedMenuJSON[1])).Decode(&MenusJSON)
 
-	currentDate := time.Now()
+	return MenusJSON, nil
 
-	for _, menuJSON := range MenusJSON {
-		MenuDate, err = time.Parse("2006-01-02T15:04:05", menuJSON.Date)
+	// 	currentDate := time.Now()
 
-		if err == nil && currentDate.Year() == MenuDate.Year() && currentDate.YearDay() == MenuDate.YearDay() {
-			return menuJSON, nil
-		}
-	}
+	// 	for _, menuJSON := range MenusJSON {
+	// 		MenuDate, err = time.Parse("2006-01-02T15:04:05", menuJSON.Date)
 
-	return MenuDay{}, errors.New("could not find the menu information for today")
+	// 		if err == nil && currentDate.Year() == MenuDate.Year() && currentDate.YearDay() == MenuDate.YearDay() {
+	// 			return menuJSON, nil
+	// 		}
+	// 	}
+
+	// 	return MenuDay{}, errors.New("could not find the menu information for today")
+	// }
+
+	// func GetTodaysMenu() (MenuDay, error) {
+
 }

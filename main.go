@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/the-rileyj/dsu-info-api/sodexo"
+	"github.com/the-rileyj/dsu-info-api/trojantimes"
 )
 
 // @title DSU Info API
@@ -14,5 +14,7 @@ func main() {
 	// router := gin.Default()
 
 	// router.Run(":1776")
-	fmt.Println(sodexo.GetTodaysMenu())
+	c := trojantimes.GetTrojanTimesArticlesWithInfo(map[string]trojantimes.TrojanTimesArticle{})
+
+	fmt.Println(<-c)
 }
