@@ -1,0 +1,64 @@
+
+// type Article struct {
+// 	gorm.Model
+// 	Author        string    `json:"author"`
+// 	Body          string    `json:"body"`
+// 	Title         string    `json:"title"`
+// 	URL           string    `json:"url"`
+// 	Categories    []string  `json:"categories"`
+// 	Comments      []Comment `json:"comments"`
+// 	DatePublished time.Time `json:"datePublished"`
+// }
+
+// type ArticleImageMetadata struct {
+// 	LastModified time.Time `json:"lastModified"`
+// 	URL          string    `json:"url"`
+// 	Title        string    `json:"title"`
+// 	Caption      string    `json:"caption"`
+// }
+
+// type ArticleMap struct {
+// 	articleMap map[string]TrojanTimesArticle
+// 	mutex      *sync.Mutex
+// }
+
+// func NewArticleMap() *ArticleMap {
+// 	return &ArticleMap{
+// 		make(map[string]TrojanTimesArticle),
+// 		&sync.Mutex{},
+// 	}
+// }
+
+// func (a *ArticleMap) Get(url string) (TrojanTimesArticle, bool) {
+// 	a.mutex.Lock()
+
+// 	article, exists := a.articleMap[url]
+
+// 	a.mutex.Unlock()
+
+// 	return article, exists
+// }
+
+// func (a *ArticleMap) Set(url string, trojanTimesArticle TrojanTimesArticle) {
+// 	a.mutex.Lock()
+
+// 	a.articleMap[url] = trojanTimesArticle
+
+// 	a.mutex.Unlock()
+// }
+
+// type DBTrojanTimesArticle struct {
+// 	Article       Article                `json:"article"`
+// 	ArticleImages []ArticleImageMetadata `json:"articleImages"`
+// 	LastModified  time.Time              `json:"lastModified"`
+// 	Rank          uint                   `json:"rank"`
+// 	URL           string                 `json:"url"`
+// }
+
+// type TrojanTimesArticle struct {
+// 	Article       Article                `json:"article"`
+// 	ArticleImages []ArticleImageMetadata `json:"articleImages"`
+// 	LastModified  time.Time              `json:"lastModified"`
+// 	Rank          uint                   `json:"rank"`
+// 	URL           string                 `json:"url"`
+// }

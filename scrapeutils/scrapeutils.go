@@ -37,13 +37,15 @@ func GetWebpageWithContext(ctx context.Context, url string, responseFunc func(*h
 		return nil, err
 	}
 
+	return makeWebpageRequestWithContextAndClient(ctx, request, http.DefaultClient, responseFunc), nil
+}
+
+func MakeRequestWithContext(ctx context.Context, request *http.Request, responseFunc func(*http.Response, error) error) chan error {
 	return makeWebpageRequestWithContextAndClient(ctx, request, http.DefaultClient, responseFunc)
 }
 
-func makeWebpageRequestWithContextAndClient(ctx context.Context, request *http.Request, client *http.Client, responseFunc func(*http.Response, error) error) (chan error, error) {
+func makeWebpageRequestWithContextAndClient(ctx context.Context, request *http.Request, client *http.Client, responseFunc func(*http.Response, error) error) chan error {
 	errorChan := make(chan error)
-
-	request = request.WithContext(ctx)
 
 	go func() {
 		responseErrorChan := make(chan error)
@@ -60,5 +62,5 @@ func makeWebpageRequestWithContextAndClient(ctx context.Context, request *http.R
 		}
 	}()
 
-	return errorChan, nil
+	return errorChan
 }
