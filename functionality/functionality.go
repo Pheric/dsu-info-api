@@ -107,7 +107,7 @@ func getDSUActivitiesInfoWithClientAndContext(client *http.Client, ctx context.C
 		}
 	}
 
-	document, err = htmlquery.Parse(dsuActivitesWebpageResponse.Body)
+	document, err := htmlquery.Parse(dsuActivitesWebpageResponse.Body)
 
 	if err != nil {
 		return DSUActivities{}, err
